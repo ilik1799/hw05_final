@@ -309,10 +309,10 @@ class FollowTest(TestCase):
         self.follower_is_user.get(reverse(
             'posts:profile_follow',
             kwargs={'username': self.author.username}))
+        follow = Follow.objects.all().latest('id')
         self.assertEqual(Follow.objects.count(), follower_count + 1)
-        self.assertTrue(Follow.objects.filter(
-            user=self.follower.id, author_id=self.author.id
-        ).exists())
+        self.assertEqual(follow.author_id, self.author.id)
+        self.assertEqual(follow.user_id, self.follower.id)
 
     def test_user_can_unfollow(self):
         """Пользователь может отписаться от автора"""
