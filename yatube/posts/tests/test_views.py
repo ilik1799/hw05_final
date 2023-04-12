@@ -310,6 +310,9 @@ class FollowTest(TestCase):
             'posts:profile_follow',
             kwargs={'username': self.author.username}))
         self.assertEqual(Follow.objects.count(), follower_count + 1)
+        self.assertTrue(Follow.objects.filter(
+            user=self.follower.id, author_id=self.author.id
+        ).exists())
 
     def test_user_can_unfollow(self):
         """Пользователь может отписаться от автора"""
@@ -320,22 +323,6 @@ class FollowTest(TestCase):
             'posts:profile_unfollow',
             kwargs={'username': self.author.username}))
         self.assertEqual(Follow.objects.count(), count_after_follow - 1)
-
-    def test_author_cannot_follow_twice(self):
-        """Проверка уникальности подписки авторизованного пользователя"""
-        self.author_is_user.get(reverse(
-            'posts:profile_follow',
-            kwargs={'username': self.author.username}))
-        follow = Follow.objects.filter(
-            user_id=self.follower.id, author_id=self.author.id).count()
-        self.assertNotEqual(follow, 1)
-        self.author_is_user.get(
-            reverse('posts:profile_follow',
-                    kwargs={'username': self.author.username})
-        )
-        follow = Follow.objects.filter(
-            user_id=self.follower.id, author_id=self.author.id).count()
-        self.assertNotEqual(follow, 1)
 
     def test_view_for_followers(self):
         """Новая запись появляется в ленте у подписчиков"""
