@@ -82,11 +82,10 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post_id)
     form = PostForm(request.POST or None, files=request.FILES or None,
                     instance=post)
-    is_edit = True
     if form.is_valid():
         form.save()
         return redirect('posts:post_detail', post_id)
-    return render(request, template, {'form': form, 'is_edit': is_edit})
+    return render(request, template, {'form': form, 'is_edit': True})
 
 
 @login_required

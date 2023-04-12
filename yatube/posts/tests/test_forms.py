@@ -248,9 +248,9 @@ class PostFormTests(TestCase):
         self.assertEqual(new_comment.author, self.post_author)
         self.assertEqual(new_comment.post, self.post)
 
-    def test_nonauthorized_user_can_add_comment(self):
-        """Комментарий появляется в базе после добавления
-            авторизованным пользователем"""
+    def test_nonauthorized_user_cannot_add_comment(self):
+        """Комментарий не появляется в базе после добавления
+            неавторизованным пользователем"""
         comments_count = Comment.objects.count()
         comment = reverse(
             'posts:add_comment',

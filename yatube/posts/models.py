@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-NUMBER_OF_POSTS = 15
+NUMBER_OF_CHARACTERS_FOR_TEXT_OUTPUT = 15
 
 
 class Group(models.Model):
@@ -56,7 +56,7 @@ class Post(models.Model):
         verbose_name_plural = 'Посты'
 
     def __str__(self):
-        return self.text[:NUMBER_OF_POSTS]
+        return self.text[:NUMBER_OF_CHARACTERS_FOR_TEXT_OUTPUT]
 
 
 class Comment(models.Model):
